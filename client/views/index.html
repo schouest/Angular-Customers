@@ -5,10 +5,7 @@
       var myAppModule = angular.module('myApp', []);
       
       myAppModule.factory('customerFactory', function (){
-    var customers = [
-        {name: 'Mike', addDate: 34},
-        {name: 'John', addDate: 24},
-        {name: 'Trey', addDate: 24}];
+    var customers = [];
     var factory = {};
     // add a get method to the object we defined
     factory.getCustomers = function (callback){
@@ -25,16 +22,12 @@
               $scope.customers = data;
           })
             
-
-            /*$scope.addCust = function (){
-		    
-		    $scope.customers.push($scope.newCustomer); // add to the array
-		    
+      $scope.addCust = function (){
+        $scope.newCustomer.addDate = new Date;
+        console.log($scope.newCustomer);
+		    $scope.customers.push($scope.newCustomer); // add to the array	    
 		    $scope.newCustomer = {};// clear the form values
-		}*/
-
-
-
+		}
 
       $scope.removeCust = function (customer){
         $scope.customers.splice($scope.customers.indexOf(customer),1);
@@ -49,16 +42,17 @@
         	<h3>Add a New Customer</h3>
 <form>
     Name: <input type='text' ng-model='newCustomer.name'>
-    <input type='hidden' value='cur date' ng-model='newCustomer.addDate'>
+    <input type='hidden' value='33' ng-model='newCustomer.addDate'>
     <input type='submit' value='add new customer' ng-click='addCust()'>
 </form>
+Search: <input type='text' ng-model='filter_name'>
 <table>
     <tr>
       <th>Customer Name</th>
       <th>Created Date</th>
       <th>Actions</th>
     </tr>
-    <tr ng-repeat="customer in customers">
+    <tr ng-repeat="customer in customers | filter:filter_name | orderBy:'addDate'">
         <td><span ng-bind='customer.name'></span></td>
         <td><span ng-bind='customer.addDate'></span></td>
         <td ng-click='removeCust(customer)'>REMOVE</td>
