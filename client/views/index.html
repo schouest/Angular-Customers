@@ -23,10 +23,17 @@
           })
             
       $scope.addCust = function (){
+        for (i = 0; i < $scope.customers.length; i++){  //check through list for dupe names
+              if($scope.customers[i].name == $scope.newCustomer.name){
+                console.log("ERROR: NAME MATCHED");
+                $scope.error_txt = 'ERROR: NAME MATCHED';
+                return false;
+              }
+        }
         $scope.newCustomer.addDate = new Date;
-        console.log($scope.newCustomer);
 		    $scope.customers.push($scope.newCustomer); // add to the array	    
 		    $scope.newCustomer = {};// clear the form values
+        $scope.error_txt = '';//reset error text
 		}
 
       $scope.removeCust = function (customer){
@@ -41,11 +48,12 @@
 
         	<h3>Add a New Customer</h3>
 <form>
-    Name: <input type='text' ng-model='newCustomer.name'>
+    <h1><span ng-bind='error_txt'></span></h1>
+    <label>Name: <input type='text' ng-model='newCustomer.name'></label>
     <input type='hidden' value='33' ng-model='newCustomer.addDate'>
     <input type='submit' value='add new customer' ng-click='addCust()'>
 </form>
-Search: <input type='text' ng-model='filter_name'>
+<label>Search: <input type='text' ng-model='filter_name' placeholder='search by name'></label>
 <table>
     <tr>
       <th>Customer Name</th>
@@ -54,7 +62,7 @@ Search: <input type='text' ng-model='filter_name'>
     </tr>
     <tr ng-repeat="customer in customers | filter:filter_name | orderBy:'addDate'">
         <td><span ng-bind='customer.name'></span></td>
-        <td><span ng-bind='customer.addDate'></span></td>
+        <td><span ng-bind="customer.addDate | date:'MMM/dd/yyyy'"></span></td>
         <td ng-click='removeCust(customer)'>REMOVE</td>
     </tr>
 </table>
