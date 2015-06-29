@@ -3,37 +3,70 @@
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"/></script>
     <script type='text/javascript'>
       var myAppModule = angular.module('myApp', []);
-      // the .controller() method adds a controller to the module
-      myAppModule.controller('studentsController', function ($scope){
-          $scope.students = [
-            {name: 'Mike', age: 34}, 
-            {name: 'John', age: 24}, 
-            {name: 'Trey', age: 24}, 
-            {name: 'India', age: 35}];
       
-            $scope.addStudent = function (){
+      myAppModule.factory('customerFactory', function (){
+    var customers = [
+        {name: 'Mike', addDate: 34},
+        {name: 'John', addDate: 24},
+        {name: 'Trey', addDate: 24}];
+    var factory = {};
+    // add a get method to the object we defined
+    factory.getCustomers = function (callback){
+        // pass the object to a callback to be used by whoever calls the method
+        callback(customers);
+    }
+    return factory
+});
+
+      myAppModule.controller('customersController', function ($scope, customerFactory){
+          $scope.customers = [];
+          // run the get method and set $scope data in the callback
+          customerFactory.getCustomers(function (data){
+              $scope.customers = data;
+          })
+            
+
+            /*$scope.addCust = function (){
 		    
-		    $scope.students.push($scope.newStudent); // add to the array
+		    $scope.customers.push($scope.newCustomer); // add to the array
 		    
-		    $scope.newStudent = {};// clear the form values
-		}
+		    $scope.newCustomer = {};// clear the form values
+		}*/
+
+
+
+
+      $scope.removeCust = function ($index){
+        alert($index);
+        
+        //$scope.friends.splice($index, 1);
+    }
 
       });
     </script>
     </head>
-    <body>
-<div ng-controller='studentsController'>
-        	<ul>
-        		<li ng-repeat='person in students'>{{ person.name}}, {{person.age}}</li>
-        	</ul>
+    <body ng-app='myApp'>
+<div ng-controller='customersController'>
 
-
-        	<h3>Add a new student!</h3>
+        	<h3>Add a New Customer</h3>
 <form>
-    Name: <input type='text' ng-model='newStudent.name'>
-    Age: <input type='text' ng-model='newStudent.age'>
-    <input type='submit' value='add new student' ng-click='addStudent()'>
+    Name: <input type='text' ng-model='newCustomer.name'>
+    <input type='hidden' value='cur date' ng-model='newCustomer.addDate'>
+    <input type='submit' value='add new customer' ng-click='addCust()'>
 </form>
-        </div>
+<table>
+    <tr>
+      <th>Customer Name</th>
+      <th>Created Date</th>
+      <th>Actions</th>
+    </tr>
+    <tr ng-repeat="customer in customers">
+        <td>{{customer.name}}</td>
+        <td>{{customer.addDate}}</td>
+        <td ng-click='removeCust($index)'>REMOVE</td>
+    </tr>
+</table>
+
+</div>
     </body>
 </html>
