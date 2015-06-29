@@ -36,10 +36,8 @@
 
 
 
-      $scope.removeCust = function ($index){
-        alert($index);
-        
-        //$scope.friends.splice($index, 1);
+      $scope.removeCust = function (customer){
+        $scope.customers.splice($scope.customers.indexOf(customer),1);
     }
 
       });
@@ -61,9 +59,9 @@
       <th>Actions</th>
     </tr>
     <tr ng-repeat="customer in customers">
-        <td>{{customer.name}}</td>
-        <td>{{customer.addDate}}</td>
-        <td ng-click='removeCust($index)'>REMOVE</td>
+        <td><span ng-bind='customer.name'></span></td>
+        <td><span ng-bind='customer.addDate'></span></td>
+        <td ng-click='removeCust(customer)'>REMOVE</td>
     </tr>
 </table>
 
