@@ -2,6 +2,7 @@
   "name": "angular_ministore",
   "dependencies": {
     "body-parser": "^1.10.1",
+    "ejs": "^2.3.2",
     "express": "^4.10.0"
   }
 }
