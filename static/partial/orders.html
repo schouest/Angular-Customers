@@ -2,20 +2,24 @@
 <h3>Add a New Order</h3>
 <div ng-controller='customersController as Customers'>
 <form>
-</div>
     <h1><span ng-bind='error_txt'></span></h1>
-    <label>Customer Name: <input type='text' ng-model='newProduct.cname'></label>
-    <input type='hidden' value='33' ng-model='newProduct.addDate'>
+    <label>Customer Name: <select ng-model='Products.newProduct.cname'>
+    	<option value="">Choose Customer</option>
+    	<option ng-repeat="customer in Customers.customers" ng-value='customer.name'>{{customer.name}}</option>
 
-     <label>Product Name: <select ng-model='newProduct.pname'>
+    </select></label>
+ </div> 
+   <input type='hidden' value='33' ng-model='Products.newProduct.addDate'>
+
+     <label>Product Name: <select ng-model='Products.newProduct.pname'>
      	<option value="Nike Shoes">Nike Shoes</option>
      	<option value="Black Belts">Black Belts</option>
      	<option value="Ice Cream">Ice Cream</option>
      	<option value="Candy">Candy</option>
      </select></label>
-    <label>Quantity: <input type='number' ng-model='newProduct.count'></label>
+    <label>Quantity: <input type='number' ng-model='Products.newProduct.count'></label>
 
-    <input type='submit' value='Place Order' ng-click='addProd()'>
+    <input type='submit' value='Place Order' ng-click='Products.addProd()'>
 </form>
 
 
@@ -26,7 +30,7 @@
       <th>Quantity</th>
       <th>Date</th>
     </tr>
-    <tr ng-repeat="product in products | filter:filter_name | orderBy:'addDate'">
+    <tr ng-repeat="product in Products.products | filter:filter_name | orderBy:'addDate'">
         <td><span ng-bind='product.cname'></span></td>
         <td><span ng-bind='product.pname'></span></td>
         <td><span ng-bind='product.count'></span></td>
