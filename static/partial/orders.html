@@ -1,1 +1,37 @@
-<H1>ORDErS</h1>
+<div ng-controller='productsController as Products'>
+<h3>Add a New Order</h3>
+<div ng-controller='customersController as Customers'>
+<form>
+</div>
+    <h1><span ng-bind='error_txt'></span></h1>
+    <label>Customer Name: <input type='text' ng-model='newProduct.cname'></label>
+    <input type='hidden' value='33' ng-model='newProduct.addDate'>
+
+     <label>Product Name: <select ng-model='newProduct.pname'>
+     	<option value="Nike Shoes">Nike Shoes</option>
+     	<option value="Black Belts">Black Belts</option>
+     	<option value="Ice Cream">Ice Cream</option>
+     	<option value="Candy">Candy</option>
+     </select></label>
+    <label>Quantity: <input type='number' ng-model='newProduct.count'></label>
+
+    <input type='submit' value='Place Order' ng-click='addProd()'>
+</form>
+
+
+<table>
+    <tr>
+      <th>Customer Name</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Date</th>
+    </tr>
+    <tr ng-repeat="product in products | filter:filter_name | orderBy:'addDate'">
+        <td><span ng-bind='product.cname'></span></td>
+        <td><span ng-bind='product.pname'></span></td>
+        <td><span ng-bind='product.count'></span></td>
+        <td><span ng-bind="product.addDate | date:'MMM/dd/yyyy'"></span></td>
+    </tr>
+</table>
+<label>Search: <input type='text' ng-model='filter_name' placeholder='filter results'></label>
+</div>

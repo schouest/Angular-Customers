@@ -1,6 +1,5 @@
 var myAppModule = angular.module('myAppModule', ['ngRoute']);
 
-
 myAppModule.config(function ($routeProvider){
 	$routeProvider
 	.when('/', {
@@ -41,13 +40,50 @@ myAppModule.config(function ($routeProvider){
               }
         }
         $scope.newCustomer.addDate = new Date;
-		    $scope.customers.push($scope.newCustomer); // add to the array	    
-		    $scope.newCustomer = {};// clear the form values
+		$scope.customers.push($scope.newCustomer); // add to the array	    
+		$scope.newCustomer = {};// clear the form values
         $scope.error_txt = '';//reset error text
 		}
 
       $scope.removeCust = function (customer){
         $scope.customers.splice($scope.customers.indexOf(customer),1);
     }
+
+      });
+
+
+
+myAppModule.factory('productFactory', function (){
+    var products = [];
+    var factory = {};
+    // add a get method to the object we defined
+    factory.getProducts = function (callback){
+        // pass the object to a callback to be used by whoever calls the method
+        callback(products);
+    }
+    return factory
+});
+
+      myAppModule.controller('productsController', function ($scope, productFactory){
+          $scope.products = [];
+          // run the get method and set $scope data in the callback
+          productFactory.getProducts(function (data){
+              $scope.products = data;
+          })
+            
+      $scope.addProd = function (){
+        for (i = 0; i < $scope.products.length; i++){  //check through list for dupe names
+              if($scope.products[i].pname == $scope.newProduct.pname
+              	&& $scope.products[i].cname == $scope.newProduct.cname){
+                console.log("ERROR: USER ALREADY PLACED ORDER");
+                $scope.error_txt = 'ERROR: USER ALREADY PLACED ORDER';
+                return false;
+              }
+        }
+        $scope.newProduct.addDate = new Date;
+		$scope.products.push($scope.newProduct); // add to the array	    
+		$scope.newProduct = {};// clear the form values
+        $scope.error_txt = '';//reset error text
+		}
 
       });
